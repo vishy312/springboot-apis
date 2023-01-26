@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;gs-securing-web-initial&apos;&#x0D;&#x0A;- Original project: &apos;gs-securing-web-initial&apos;&#x0D;&#x0A;- Original element: &apos;gs-securing-web-initial/src/main/java/com.example.securingweb.user&apos;" description="Delete element" element1="/src\/main\/java=/gradle_scope=/main=/=/gradle_used_by_scope=/main,test=/&lt;com.example.securingweb.user" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1672495632879" subPackages="false" version="1.0"/>
+</session>

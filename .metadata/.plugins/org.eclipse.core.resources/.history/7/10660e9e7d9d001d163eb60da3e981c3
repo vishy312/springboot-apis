@@ -1,0 +1,105 @@
+package com.raster;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.ReflectionUtils;
+
+import jakarta.persistence.EntityNotFoundException;
+
+import org.springframework.stereotype.Service;
+
+
+
+
+
+@Service
+public class BusinessService {
+	
+	@Autowired
+	private BusinessRepository businessRepository;
+
+	public Page<Business> getShops(Pageable pageable) {
+		return businessRepository.findAll(pageable);
+	}
+
+	public Business getShopById(Long id) {
+		Optional<Business> shop = businessRepository.findById(id);
+		if(!shop.isPresent()) {
+			throw new EntityNotFoundException("A Shop with this id does not exist");
+		}
+		
+		return shop.get();
+	}
+
+	public Page<Business> getShopsByKeyword(String key, Pageable pageable) {
+		return businessRepository.findByNameContains(key, pageable);
+	}
+
+	public Page<Business> getShopsByCategory(String category, Pageable pageable) {
+		String[]
+		
+		return businessRepository.findByCategory(category, pageable);
+	}
+
+	public void addShop(Business shop) {
+		shop.validate();
+		businessRepository.save(shop);
+	}
+
+	public void addShops(List<Business> shops) {
+		shops.forEach(shop -> {
+			shop.validate();
+			businessRepository.save(shop);
+		});
+	}
+
+	public void editShop(Long id, Business shop) {
+		shop.validate();
+		Optional<Business> shopToUpdate= businessRepository.findById(id);
+		if(!shopToUpdate.isPresent()) {
+			throw new IllegalArgumentException("No shop found with this id");
+		}
+		
+		Business oldShop = shopToUpdate.get();
+		oldShop.setName(shop.getName());
+		oldShop.setAddress(shop.getAddress());
+		oldShop.setCategory(shop.getCategory());
+		oldShop.setEmail(shop.getEmail());
+		
+		businessRepository.save(shop);
+	}
+
+	public void patchShop(Long id, Map<String, String> updates) {
+		Optional<Business> shop = businessRepository.findById(id);
+		if(!shop.isPresent()) {
+			throw new IllegalArgumentException("No shop found with this id");
+		}
+		
+		updates.forEach((key, value) -> {
+			Field field = ReflectionUtils.findField(Business.class, key);
+			field.setAccessible(true);
+			ReflectionUtils.setField(field, shop, value);
+		});
+		businessRepository.save(shop.get());
+	}
+
+	public void removeShop(Long id) {
+		Optional<Business> shop = businessRepository.findById(id);
+		
+		if(!shop.isPresent()) {
+			throw new IllegalArgumentException("No shop found with this id");
+		}
+		businessRepository.deleteById(id);
+	}
+	
+	
+}

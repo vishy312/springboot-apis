@@ -1,0 +1,9 @@
+package com.raster;
+
+public class BusinessNotFoundExceptiion extends RuntimeException {
+
+	public BusinessNotFoundExceptiion(String message) {
+		super(message);
+	}
+
+}

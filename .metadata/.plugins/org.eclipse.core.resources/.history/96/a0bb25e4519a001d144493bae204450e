@@ -1,0 +1,17 @@
+package com.raster;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.repository.CrudRepository;
+
+import jakarta.persistence.FlushModeType;
+
+public interface BusinessRepository extends CrudRepository<Business, Long>, JpaRepository<Business, Long> {
+
+	List<Business> findByNameContains(String key);
+	
+	List<Business> findByCategory(String category);
+
+//	void save(Business shop, FlushModeType flushMode);
+}

@@ -1,0 +1,5 @@
+package com.raster.auth;
+
+public class CustomAuthenticationAndAuthorizationProvider {
+
+}

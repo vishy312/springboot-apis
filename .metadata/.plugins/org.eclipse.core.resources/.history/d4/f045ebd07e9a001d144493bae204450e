@@ -1,0 +1,10 @@
+package com.raster;
+
+import org.springframework.web.bind.annotation.ControllerAdvice;
+
+@ControllerAdvice
+public class GlobalExceptionHandler {
+	
+	@ExceptionHandler(BusinessNotFoundException.class)
+	public ResponseEntity<Response> handleBusinessNotFound()
+}
